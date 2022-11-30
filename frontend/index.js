@@ -153,13 +153,24 @@ function memberNameChange(settera, value, setterb){
 async function createPayment(tPayments, linkField, dateField, memberRecordId, setPaymentRecId){
 	
 	if (tPayments.hasPermissionToCreateRecord()) {
-		//find the date to set in the record
-		let now = new Date();
+		
+		const field = tPayments.getFieldById(dateField);
+		if (field.type == FieldType.DATE_TIME ||
+		    field.type == FieldType.DATE) {
+		   
+			//find the date to set in the record
+			let now = new Date();
 
-		const newRecordId = await tPayments.createRecordAsync({
-						[linkField]: [{id: memberRecordId}],
-						[dateField]: now,
-							});
+			const newRecordId = await tPayments.createRecordAsync({
+							[linkField]: [{id: memberRecordId}],
+							[dateField]: now,
+								});
+		} else {
+			const newRecordId = await tPayments.createRecordAsync({
+				[linkField]: [{id: memberRecordId}],
+				});
+
+		}
 		// when the promise resolves to the id of the record created
 		// save it so that when we restart the new record can be read
 		// and displayed for update
@@ -227,7 +238,8 @@ function SettingsMenu(props) {
                                     globalConfigKey={GlobalConfigKeys.PAYMENT_DATE_FIELD_ID}
                                     allowedTypes={[
                                         FieldType.DATE_TIME,
-										FieldType.DATE
+										FieldType.DATE,
+										FieldType.CREATED_TIME
                                     ]}
                                 />
                             </FormField>
