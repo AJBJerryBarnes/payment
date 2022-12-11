@@ -84,8 +84,8 @@ function Payment() {
 			return payment.id ==  paymentRecId
 		}) : null;
 	
-	if (paymentRecords && paymentRecords.length > 0 && !isShowingSettings) {expandRecord(paymentRecords[0]);}
-	
+	if (paymentRecords && paymentRecords.length > 0 && !isShowingSettings) {expandRecord(paymentRecords[0]);setPaymentRecId(-1);}
+
 	if (isShowingSettings) {
 		if (paymentRecId != null){setPaymentRecId(null);}
         return (
