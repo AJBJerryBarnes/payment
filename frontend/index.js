@@ -155,18 +155,19 @@ async function createPayment(tPayments, linkField, dateField, memberRecordId, se
 	if (tPayments.hasPermissionToCreateRecord()) {
 		
 		const field = tPayments.getFieldById(dateField);
+		var newRecordId;
 		if (field.type == FieldType.DATE_TIME ||
 		    field.type == FieldType.DATE) {
 		   
 			//find the date to set in the record
 			let now = new Date();
 
-			const newRecordId = await tPayments.createRecordAsync({
+			newRecordId = await tPayments.createRecordAsync({
 							[linkField]: [{id: memberRecordId}],
 							[dateField]: now,
 								});
 		} else {
-			const newRecordId = await tPayments.createRecordAsync({
+			newRecordId = await tPayments.createRecordAsync({
 				[linkField]: [{id: memberRecordId}],
 				});
 
